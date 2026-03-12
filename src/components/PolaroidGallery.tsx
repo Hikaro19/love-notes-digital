@@ -3,10 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import PolaroidCard from "./PolaroidCard";
 import ModalPhoto from "./ModalPhoto";
 
-import photo1 from "@/assets/photos/photo1.jpg";
-import photo2 from "@/assets/photos/photo2.jpg";
-import photo3 from "@/assets/photos/photo3.jpg";
-import bgGallery from "@/assets/photos/bg-gallery.jpg";
+import photo1 from "@/assets/photos/fotoSorriso.jpg";
+import photo2 from "@/assets/photos/fotoOlhar.jpg";
+import photo3 from "@/assets/photos/FotoJeito.jpg";
+import photo4 from "@/assets/photos/fotoCriancas.jpg";
+import bgGallery from "@/assets/photos/bg-galery.jpg";
 
 interface PhotoData {
   image: string;
@@ -20,7 +21,7 @@ const photos: PhotoData[] = [
     image: photo1,
     label: "Seu sorriso",
     description:
-      "Esse sorriso que ilumina tudo ao redor. Quando você sorri, o mundo inteiro parece ficar mais bonito. É impossível não sorrir junto.",
+      "Tenha certeza que as palhaçadas que faço é para ver esse sorriso que contagia tudo ao redor. Quero arrancar um sorriso seu até nos dias mais difíceis, e que eu possa ser um motivo para esse sorriso aparecer com frequência na sua vida.",
     rotation: -3,
   },
   {
@@ -34,7 +35,14 @@ const photos: PhotoData[] = [
     image: photo3,
     label: "Seu jeito",
     description:
-      "Seu jeitinho único de ser, de cuidar, de amar. Tudo em você é especial de um jeito que só você consegue ser.",
+      "Seu jeitinho único de ser, de lutar, de cuidar, de amar. Tudo em você é especial de um jeito que só você consegue ser.",
+    rotation: -1,
+  },
+  {
+    image: photo4,
+    label: "Seu carinho",
+    description:
+      "Esse carinho que você tem pelas crianças, e por todos ao seu redor. É um dos seus maiores presentes para o mundo, e eu admiro demais isso em você, além de ser algo em comum entre nós.",
     rotation: -1,
   },
 ];
@@ -75,14 +83,14 @@ const PolaroidGallery = () => {
         </motion.p>
 
         {/* Polaroid grid - zig-zag */}
-        <div className="relative w-full max-w-md mx-auto" style={{ aspectRatio: "9/14" }}>
+        <div className="relative w-full max-w-md mx-auto" style={{ aspectRatio: "9/17" }}>
           {photos.map((photo, i) => (
             <div
               key={i}
               className="absolute"
               style={{
-                left: i % 2 === 0 ? "-5%" : "55%",
-                top: `${i * 33}%`,
+                left: i % 2 === 0 ? "-5%" : "60%",
+                top: `${Math.floor(i / 2) * 60}%`,
                 width: "45%",
               }}
             >

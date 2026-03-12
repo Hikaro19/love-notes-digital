@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import bgMessage from "@/assets/photos/bg-message.jpg";
 
 interface MessageScreenProps {
   onNext: () => void;
@@ -48,8 +49,16 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
   }, []);
 
   return (
-    <div className="romantic-gradient-bg flex items-center justify-center px-4">
-      <div className="relative z-10 flex flex-col items-center gap-8 max-w-lg w-full">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${bgMessage})` }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 py-8 min-h-screen gap-8">
+        <div className="flex flex-col items-center gap-8 max-w-lg w-full">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -99,13 +108,14 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
                     exit={{ opacity: 0 }}
                     className="text-primary font-body text-sm mt-4 italic"
                   >
-                    Ah, fica assim então. Aperta em "Claro" logo por favor 🥺
+                    Ah, fica assim então. Aperta em "Claro" logo por favor! 😅
                   </motion.p>
                 )}
               </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
     </div>
   );
