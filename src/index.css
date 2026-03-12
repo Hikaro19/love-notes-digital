@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 340 50% 96%;
+    --foreground: 340 30% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 340 30% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 340 30% 15%;
+    --primary: 340 60% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 200 60% 85%;
+    --secondary-foreground: 200 40% 20%;
+    --muted: 340 20% 90%;
+    --muted-foreground: 340 10% 45%;
+    --accent: 30 80% 85%;
+    --accent-foreground: 30 50% 20%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 340 30% 88%;
+    --input: 340 30% 88%;
+    --ring: 340 60% 65%;
+    --radius: 0.75rem;
+
+    --font-display: 'Dancing Script', cursive;
+    --font-body: 'Quicksand', sans-serif;
+
+    --gradient-romantic: linear-gradient(135deg, hsl(340 70% 92%), hsl(200 70% 90%));
+    --gradient-conic: conic-gradient(
+      from 0deg,
+      #ff9aa2, #ffb7b2, #ffdac1, #e2f0cb, #a2e4ff, #c9afff, #ffb7b2, #ff9aa2
+    );
+    --shadow-soft: 0 8px 32px -8px hsl(340 60% 65% / 0.25);
+    --shadow-glow: 0 0 40px hsl(340 60% 65% / 0.15);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .romantic-gradient-bg {
+    background: var(--gradient-romantic);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .romantic-gradient-bg::before,
+  .romantic-gradient-bg::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient-conic);
+    transform: translate(-50%, -50%);
+    animation: rotate-bg 8s linear infinite;
+    filter: blur(60px);
+    opacity: 0.6;
+    z-index: 0;
+  }
+
+  .romantic-gradient-bg::after {
+    animation-delay: -4s;
+    opacity: 0.4;
+  }
+
+  .btn-romantic {
+    @apply px-8 py-4 rounded-full font-semibold text-lg cursor-pointer border-none;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: var(--shadow-soft);
+    animation: pulse-btn 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+    font-family: var(--font-body);
+  }
+
+  .btn-romantic:hover {
+    transform: scale(1.08);
+    box-shadow: var(--shadow-glow), var(--shadow-soft);
+  }
+
+  .btn-romantic-outline {
+    @apply px-6 py-3 rounded-full font-medium cursor-pointer;
+    background: transparent;
+    border: 2px solid hsl(var(--primary));
+    color: hsl(var(--primary));
+    transition: all 0.3s ease;
+    font-family: var(--font-body);
+  }
+
+  .btn-romantic-outline:hover {
+    background: hsl(var(--primary) / 0.1);
+  }
+
+  .polaroid-card {
+    @apply rounded-sm;
+    background: hsl(var(--card));
+    padding: 0.5rem 0.5rem 2.5rem;
+    box-shadow: 0 4px 20px hsl(0 0% 0% / 0.15);
+    transition: transform 0.4s ease, filter 0.4s ease;
+    cursor: pointer;
+  }
+
+  .polaroid-card:hover {
+    transform: scale(1.05) rotate(1deg);
+    filter: brightness(1.05);
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: hsl(0 0% 0% / 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: hsl(0 0% 0% / 0.45);
+    z-index: 1;
+  }
+
+  .typing-cursor::after {
+    content: '|';
+    animation: blink 0.8s step-end infinite;
+    color: hsl(var(--primary));
+  }
+}
+
+@keyframes rotate-bg {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes pulse-btn {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
