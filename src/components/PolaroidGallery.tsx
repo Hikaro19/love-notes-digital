@@ -81,9 +81,9 @@ const PolaroidGallery = () => {
               key={i}
               className="absolute"
               style={{
-                left: i % 2 === 0 ? "5%" : "45%",
+                left: i % 2 === 0 ? "-5%" : "55%",
                 top: `${i * 33}%`,
-                width: "50%",
+                width: "45%",
               }}
             >
               <PolaroidCard
