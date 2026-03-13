@@ -221,7 +221,7 @@ const History = ({ onNext }: HistoryProps) => {
                             transition={{ duration: 0.5 }}
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
-                            <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm">
+                            <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm max-h-screen overflow-y-auto">
                                 <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
                                     Credo, RockPoint é osso em KKSKSKSK
                                 </p>
@@ -266,7 +266,7 @@ const History = ({ onNext }: HistoryProps) => {
                             transition={{ duration: 0.5 }}
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
-                            <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm">
+                            <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm max-h-screen overflow-y-auto">
                                 <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
                                     Pior que eu enrolei tanto para te beijar que até Lia achou que
                                     ficaria na amizade…
@@ -312,7 +312,7 @@ const History = ({ onNext }: HistoryProps) => {
                             transition={{ duration: 0.5 }}
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
-                            <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm">
+                            <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm max-h-screen overflow-y-auto">
                                 <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
                                     Felizmente deu tudo certo! E depois do primeiro beijo eu já
                                     estava assim:
