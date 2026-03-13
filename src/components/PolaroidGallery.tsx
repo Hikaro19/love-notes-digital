@@ -5,7 +5,7 @@ import ModalPhoto from "./ModalPhoto";
 
 import photo1 from "@/assets/photos/fotoSorriso.jpg";
 import photo2 from "@/assets/photos/fotoOlhar.jpg";
-import photo3 from "@/assets/photos/FotoJeito.jpg";
+import photo3 from "@/assets/photos/fotoJeito.jpg";
 import photo4 from "@/assets/photos/fotoCriancas.jpg";
 import bgGallery from "@/assets/photos/bg-galery.jpg";
 
