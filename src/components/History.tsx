@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useStepTimer } from "@/hooks/useStepTimer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import videoCaseiNaLiberta from "@/assets/photos/videoCaseiNaLiberta.mp4";
 import videoNamoramos from "@/assets/photos/videoNamoramos.mp4";
@@ -23,11 +24,13 @@ type ModalStep =
 
 const History = ({ onNext }: HistoryProps) => {
     const [currentStep, setCurrentStep] = useState<ModalStep>("initial");
-    const [showNextButton, setShowNextButton] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [inputError, setInputError] = useState(false);
     const [inputErrorMessage, setInputErrorMessage] = useState("");
     const [shaking, setShaking] = useState(false);
+
+    // Use custom hook to manage timer-based button visibility
+    const showNextButton = useStepTimer(currentStep);
 
     const correctAnswers = ["apagar", "dormir"];
 
@@ -47,69 +50,24 @@ const History = ({ onNext }: HistoryProps) => {
         }
     };
 
-    // Initial modal - show next button after 2 seconds
-    useEffect(() => {
-        if (currentStep === "initial") {
-            const timer = setTimeout(() => setShowNextButton(true), 2000);
-            return () => clearTimeout(timer);
-        }
-    }, [currentStep]);
-
-    // Correct answer modal - show next button after 5 seconds
-    useEffect(() => {
-        if (currentStep === "correct-answer") {
-            const timer = setTimeout(() => setShowNextButton(true), 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [currentStep]);
-
-    // Wrong answer modal - show next button after 5 seconds
-    useEffect(() => {
-        if (currentStep === "wrong-answer") {
-            const timer = setTimeout(() => setShowNextButton(true), 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [currentStep]);
-
-    // Photo Lia modal - show next button after 5 seconds
-    useEffect(() => {
-        if (currentStep === "photo-lia") {
-            const timer = setTimeout(() => setShowNextButton(true), 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [currentStep]);
-
-    // Video 1 modal - show next button after 5 seconds
-    useEffect(() => {
-        if (currentStep === "video1") {
-            const timer = setTimeout(() => setShowNextButton(true), 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [currentStep]);
-
     const handleCorrectAnswer = () => {
         setCurrentStep("correct-answer");
-        setShowNextButton(false);
     };
 
     const handleWrongAnswer = () => {
         setCurrentStep("wrong-answer");
-        setShowNextButton(false);
     };
 
     const handleNextFromAnswers = () => {
         setCurrentStep("photo-lia");
-        setShowNextButton(false);
     };
 
     const handleNextFromLia = () => {
         setCurrentStep("video1");
-        setShowNextButton(false);
     };
 
     const handleNextFromVideo1 = () => {
         setCurrentStep("input-question");
-        setShowNextButton(false);
     };
 
     const handleSuccessClick = () => {
@@ -117,7 +75,7 @@ const History = ({ onNext }: HistoryProps) => {
     };
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-gradient-romantic">
+        <div className="relative min-h-screen overflow-y-auto bg-gradient-romantic">
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center justify-center px-4 py-8 min-h-screen">
                 <AnimatePresence mode="wait">
@@ -142,6 +100,7 @@ const History = ({ onNext }: HistoryProps) => {
                                         onClick={handleCorrectAnswer}
                                         className="btn-romantic w-full"
                                         whileTap={{ scale: 0.95 }}
+                                        whileHover={{ scale: 1.05 }}
                                     >
                                         Final da Libertaaa❤️
                                     </motion.button>
@@ -168,7 +127,7 @@ const History = ({ onNext }: HistoryProps) => {
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
                             <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-2xl w-full backdrop-blur-sm max-h-screen overflow-y-auto">
-                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
+                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-2 leading-relaxed">
                                     Isso aeeee. No mesmo dia já emocionei KSKSKSKSK
                                 </p>
 
@@ -222,8 +181,8 @@ const History = ({ onNext }: HistoryProps) => {
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
                             <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm max-h-screen overflow-y-auto">
-                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
-                                    Credo, RockPoint é osso em KKSKSKSK
+                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-2 leading-relaxed">
+                                    Deus me livre, RockPoint é osso em KKSKSKSK
                                 </p>
 
                                 <div className="w-full mb-6">
@@ -267,7 +226,7 @@ const History = ({ onNext }: HistoryProps) => {
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
                             <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm max-h-screen overflow-y-auto">
-                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
+                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-4 leading-relaxed">
                                     Pior que eu enrolei tanto para te beijar que até Lia achou que
                                     ficaria na amizade…
                                 </p>
@@ -313,7 +272,7 @@ const History = ({ onNext }: HistoryProps) => {
                             className="fixed inset-0 z-20 flex items-center justify-center px-4"
                         >
                             <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm max-h-screen overflow-y-auto">
-                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-6 leading-relaxed">
+                                <p className="text-foreground font-body text-base sm:text-lg text-center mb-4 leading-relaxed">
                                     Felizmente deu tudo certo! E depois do primeiro beijo eu já
                                     estava assim:
                                 </p>
@@ -423,7 +382,7 @@ const History = ({ onNext }: HistoryProps) => {
                                 <motion.div
                                     initial={{ opacity: 0, y: -20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="mb-6 bg-green-50 border-2 border-green-500 rounded-lg p-4"
+                                    className="mb-2 bg-green-50 border-2 border-green-500 rounded-lg p-4"
                                 >
                                     <p className="text-green-700 font-body text-center">
                                         Acertou! 🎉
@@ -437,14 +396,14 @@ const History = ({ onNext }: HistoryProps) => {
                                     transition={{ delay: 0.2 }}
                                     className="bg-card rounded-2xl p-6 sm:p-8 shadow-lg w-full text-center"
                                 >
-                                    <div className="w-4/5 mx-auto mb-6">
+                                    <div className="w-4/5 mx-auto mb-4">
                                         <img
                                             src={fotoDormindo}
                                             alt="Dormindo"
                                             className="w-full h-auto rounded-lg"
                                         />
                                     </div>
-                                    <p className="text-foreground font-body text-base sm:text-lg mb-6">
+                                    <p className="text-foreground font-body text-base sm:text-lg mb-4">
                                         Enfim… vamos ao que interessa.
                                     </p>
 

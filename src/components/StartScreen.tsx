@@ -1,5 +1,7 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import { ANIMATION_TIMINGS } from "@/constants/animations";
 import bgInicial from "@/assets/photos/bg-inicial.jpg";
 
 interface StartScreenProps {
@@ -7,8 +9,14 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onEnter }: StartScreenProps) => {
+  // Respect user's motion preferences
+  const prefersReducedMotion = useMemo(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    []
+  );
+
   return (
-    <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative min-h-screen overflow-y-auto flex items-center justify-center">
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -20,17 +28,25 @@ const StartScreen = ({ onEnter }: StartScreenProps) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: ANIMATION_TIMINGS.CARD_APPEAR_DURATION, ease: "easeOut" }}
         className="relative z-10 flex flex-col items-center gap-8 px-6 text-center"
       >
         <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          animate={
+            prefersReducedMotion 
+              ? {} 
+              : { y: [0, -ANIMATION_TIMINGS.HEART_FLOAT_AMPLITUDE, 0] }
+          }
+          transition={
+            prefersReducedMotion 
+              ? {} 
+              : { duration: ANIMATION_TIMINGS.HEART_FLOAT_DURATION, repeat: Infinity, ease: "easeInOut" }
+          }
         >
           <Heart className="h-16 w-16 text-primary fill-primary opacity-80" />
         </motion.div>
 
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white drop-shadow-sm">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-sm">
           Para você 🤍
         </h1>
 

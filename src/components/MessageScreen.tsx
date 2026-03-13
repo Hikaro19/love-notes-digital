@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ANIMATION_TIMINGS } from "@/constants/animations";
 import bgMessage from "@/assets/photos/bg-message.jpg";
 
 interface MessageScreenProps {
@@ -22,34 +23,70 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
   const [showCard, setShowCard] = useState(false);
   const [showSideMessage, setShowSideMessage] = useState(false);
 
+  // Typing effect with AbortController to prevent memory leaks
   useEffect(() => {
+    const abortController = new AbortController();
     let i = 0;
+
     const interval = setInterval(() => {
+      if (abortController.signal.aborted) {
+        clearInterval(interval);
+        return;
+      }
+
       if (i < fullMessage.length) {
         setDisplayedText(fullMessage.slice(0, i + 1));
         i++;
       } else {
         clearInterval(interval);
-        setTypingDone(true);
+        if (!abortController.signal.aborted) {
+          setTypingDone(true);
+        }
       }
-    }, 45);
-    return () => clearInterval(interval);
-  }, []);
+    }, ANIMATION_TIMINGS.TYPING_SPEED);
 
+    return () => {
+      abortController.abort();
+      clearInterval(interval);
+    };
+  }, [fullMessage.length]);
+
+  // Show card after typing completes
   useEffect(() => {
-    if (typingDone) {
-      const timer = setTimeout(() => setShowCard(true), 2000);
-      return () => clearTimeout(timer);
-    }
+    if (!typingDone) return;
+
+    const abortController = new AbortController();
+
+    const timer = setTimeout(() => {
+      if (!abortController.signal.aborted) {
+        setShowCard(true);
+      }
+    }, ANIMATION_TIMINGS.MESSAGE_SHOW_CARD_DELAY);
+
+    return () => {
+      abortController.abort();
+      clearTimeout(timer);
+    };
   }, [typingDone]);
 
   const handleRefuse = useCallback(() => {
     setShowSideMessage(true);
-    setTimeout(() => setShowSideMessage(false), 4000);
+    
+    const abortController = new AbortController();
+    const timer = setTimeout(() => {
+      if (!abortController.signal.aborted) {
+        setShowSideMessage(false);
+      }
+    }, ANIMATION_TIMINGS.SIDE_MESSAGE_DISMISS_DELAY);
+
+    return () => {
+      abortController.abort();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-y-auto">
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -63,7 +100,9 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-card/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg w-full"
+          className={`bg-card/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg w-full ${
+            !typingDone ? "breathing-card" : ""
+          }`}
         >
           <p className="text-foreground font-body text-base sm:text-lg leading-relaxed whitespace-pre-line">
             {displayedText}
@@ -77,11 +116,11 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: ANIMATION_TIMINGS.MODAL_TRANSITION }}
               className="bg-card rounded-2xl p-6 sm:p-8 shadow-lg w-full text-center"
             >
               <p className="text-foreground font-body text-base sm:text-lg mb-6">
-                Quero ressaltar alguns detalhes que fico admirado em você.
+                Quero ressaltar alguns detalhes que admiro em você. Posso?
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center">

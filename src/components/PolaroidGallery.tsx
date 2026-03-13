@@ -2,69 +2,31 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import PolaroidCard from "./PolaroidCard";
 import ModalPhoto from "./ModalPhoto";
+import { PHOTOS_DATA } from "@/data/photos";
+import { ANIMATION_TIMINGS } from "@/constants/animations";
 
-import photo1 from "@/assets/photos/fotoSorriso.jpg";
-import photo2 from "@/assets/photos/fotoOlhar.jpg";
-import photo3 from "@/assets/photos/fotoJeito.jpg";
-import photo4 from "@/assets/photos/fotoCriancas.jpg";
 import bgGallery from "@/assets/photos/bg-galery.jpg";
 
-interface PhotoData {
-  image: string;
-  label: string;
-  description: string;
-  rotation: number;
-}
-
-const photos: PhotoData[] = [
-  {
-    image: photo1,
-    label: "Seu sorriso",
-    description:
-      "Tenha certeza que as palhaçadas que faço é para ver esse sorriso que contagia tudo ao redor. Quero arrancar um sorriso seu até nos dias mais difíceis, e que eu possa ser um motivo para esse sorriso aparecer com frequência na sua vida.",
-    rotation: -3,
-  },
-  {
-    image: photo2,
-    label: "Seu olhar",
-    description:
-      "Esse olhar que diz tanta coisa sem precisar de palavras. É nele que eu me perco e me encontro ao mesmo tempo.",
-    rotation: 2,
-  },
-  {
-    image: photo3,
-    label: "Seu jeito",
-    description:
-      "Seu jeitinho único de ser, de lutar, de cuidar, de amar. Tudo em você é especial de um jeito que só você consegue ser.",
-    rotation: -1,
-  },
-  {
-    image: photo4,
-    label: "Seu carinho",
-    description:
-      "Esse carinho que você tem pelas crianças, e por todos ao seu redor. É um dos seus maiores presentes para o mundo, e eu admiro demais isso em você, além de ser algo em comum entre nós.",
-    rotation: -1,
-  },
-];
-
 const PolaroidGallery = () => {
-  const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
-  const [viewedPhotos, setViewedPhotos] = useState<Set<number>>(new Set());
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [viewedPhotos, setViewedPhotos] = useState(new Set());
   const [showFinal, setShowFinal] = useState(false);
 
-  const allViewed = useMemo(() => viewedPhotos.size === photos.length, [viewedPhotos]);
+  const allViewed = useMemo(() => viewedPhotos.size === PHOTOS_DATA.length, [viewedPhotos]);
 
-  const handlePhotoClick = (index: number) => {
-    setSelectedPhoto(photos[index]);
+  const handlePhotoClick = (index) => {
+    setSelectedPhoto(PHOTOS_DATA[index]);
     setViewedPhotos((prev) => new Set([...prev, index]));
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-y-auto">
       {/* Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="bg-screen-base"
         style={{ backgroundImage: `url(${bgGallery})` }}
+        role="img"
+        aria-label="Fundo da galeria de fotos"
       />
       <div className="gallery-overlay" />
 
@@ -76,6 +38,7 @@ const PolaroidGallery = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="font-body text-primary-foreground text-center text-sm sm:text-base leading-relaxed max-w-md mb-8 sm:mb-12 px-2"
+          aria-live="polite"
         >
           "Quando você me pergunta o porquê de eu estar te olhando e eu não sei
           o que responder, ou digo apenas um 'nada não', são algumas dessas
@@ -83,14 +46,19 @@ const PolaroidGallery = () => {
         </motion.p>
 
         {/* Polaroid grid - zig-zag */}
-        <div className="relative w-full max-w-md mx-auto" style={{ aspectRatio: "9/17" }}>
-          {photos.map((photo, i) => (
+        <div 
+          className="relative w-full max-w-md mx-auto" 
+          style={{ aspectRatio: "9/17" }}
+          role="region"
+          aria-label="Galeria de fotos em formato Polaroid"
+        >
+          {PHOTOS_DATA.map((photo, i) => (
             <div
               key={i}
               className="absolute"
               style={{
-                left: i % 2 === 0 ? "-5%" : "60%",
-                top: `${Math.floor(i / 2) * 60}%`,
+                left: i % 2 === 0 ? "-3%" : "58%",
+                top: `${Math.floor(i / 2) * 68}%`,
                 width: "45%",
               }}
             >
@@ -98,7 +66,7 @@ const PolaroidGallery = () => {
                 image={photo.image}
                 label={photo.label}
                 rotation={photo.rotation}
-                delay={i * 0.3}
+                delay={i * ANIMATION_TIMINGS.PHOTO_STAGGER_DELAY}
                 onClick={() => handlePhotoClick(i)}
               />
             </div>
@@ -114,6 +82,7 @@ const PolaroidGallery = () => {
               transition={{ delay: 0.5 }}
               onClick={() => setShowFinal(true)}
               className="btn-romantic mt-8 relative z-20"
+              aria-label="Ver a mensagem final"
             >
               Tem mais uma coisa...
             </motion.button>
@@ -131,10 +100,10 @@ const PolaroidGallery = () => {
               <p className="font-body text-foreground text-base sm:text-lg leading-relaxed whitespace-pre-line">
                 {"No fim das contas,\no motivo de eu te olhar tanto\né simples…\n\n"}
               </p>
-              <p className="font-display text-primary text-3xl sm:text-4xl mt-4">
+              <p className="font-display text-primary text-3xl sm:text-4xl mt-4 glow-text">
                 eu gosto muito de você.
               </p>
-              <span className="text-2xl mt-4 block">🤍</span>
+              <span className="text-4xl mt-4 block heartbeat-icon">🤍</span>
             </motion.div>
           )}
         </AnimatePresence>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ANIMATION_TIMINGS } from "@/constants/animations";
 import StartScreen from "@/components/StartScreen";
 import History from "@/components/History";
 import MessageScreen from "@/components/MessageScreen";
@@ -17,7 +18,7 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: ANIMATION_TIMINGS.SCREEN_FADE_DURATION }}
         className="min-h-screen"
       >
         {screen === "start" && <StartScreen onEnter={() => setScreen("history")} />}

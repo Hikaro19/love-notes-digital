@@ -156,6 +156,43 @@
     animation: blink 0.8s step-end infinite;
     color: hsl(var(--primary));
   }
+
+  /* Background base classes for screens */
+  .bg-screen-base {
+    @apply absolute inset-0 bg-cover bg-center;
+  }
+
+  /* Improved focus states for accessibility */
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Transform origin for hover scale effects */
+  .polaroid-card img {
+    @apply origin-center;
+  }
+
+  /* Improved keyboard navigation */
+  [role="button"]:focus {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .btn-romantic {
+      animation: none;
+    }
+  }
 }
 
 @keyframes rotate-bg {
@@ -176,4 +213,68 @@
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+}
+
+/* Celebration animations - emotional impact */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.15);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 0px rgba(var(--primary-rgb), 0.2));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(var(--primary-rgb), 0.15));
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(var(--primary-rgb), 0.6);
+  }
+}
+
+@keyframes button-celebrate {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animation classes for components */
+.heartbeat-icon {
+  animation: heartbeat 1.2s ease-in-out infinite;
+}
+
+.breathing-card {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.glow-text {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.celebrate-button {
+  animation: button-celebrate 0.6s ease-out;
 }
