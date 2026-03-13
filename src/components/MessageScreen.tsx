@@ -55,6 +55,7 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${bgMessage})` }}
       />
+      <div className="gallery-overlay" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-4 py-8 min-h-screen gap-8">

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import bgInicial from "@/assets/photos/bg-inicial.jpg";
 
 interface StartScreenProps {
   onEnter: () => void;
@@ -7,7 +8,15 @@ interface StartScreenProps {
 
 const StartScreen = ({ onEnter }: StartScreenProps) => {
   return (
-    <div className="romantic-gradient-bg flex items-center justify-center">
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
+      {/* Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${bgInicial})` }}
+      />
+      <div className="gallery-overlay" />
+
+      {/* Content */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -21,11 +30,11 @@ const StartScreen = ({ onEnter }: StartScreenProps) => {
           <Heart className="h-16 w-16 text-primary fill-primary opacity-80" />
         </motion.div>
 
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground drop-shadow-sm">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white drop-shadow-sm">
           Para você 🤍
         </h1>
 
-        <p className="text-lg text-muted-foreground font-body max-w-xs">
+        <p className="text-lg text-white/80 font-body max-w-xs">
           Preparei uma surpresinha especial...
         </p>
 
