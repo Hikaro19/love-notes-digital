@@ -2,12 +2,13 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import PolaroidCard from "./PolaroidCard";
 import ModalPhoto from "./ModalPhoto";
+import BackButton from "./BackButton";
 import { PHOTOS_DATA } from "@/data/photos";
 import { ANIMATION_TIMINGS } from "@/constants/animations";
 
 import bgGallery from "@/assets/photos/bg-galery.jpg";
 
-const PolaroidGallery = () => {
+const PolaroidGallery = ({ onBack }: { onBack: () => void }) => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [viewedPhotos, setViewedPhotos] = useState(new Set());
   const [showFinal, setShowFinal] = useState(false);
@@ -21,6 +22,7 @@ const PolaroidGallery = () => {
 
   return (
     <div className="relative min-h-screen overflow-y-auto">
+      <BackButton onClick={onBack} ariaLabel="Voltar para tela anterior" />
       {/* Background */}
       <div
         className="bg-screen-base"
@@ -37,12 +39,22 @@ const PolaroidGallery = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="font-body text-primary-foreground text-center text-sm sm:text-base leading-relaxed max-w-md mb-8 sm:mb-12 px-2"
+          className="font-body text-primary-foreground text-center text-sm sm:text-base leading-relaxed max-w-md mb-8 sm:mb-12 px-6"
           aria-live="polite"
         >
           "Quando você me pergunta o porquê de eu estar te olhando e eu não sei
           o que responder, ou digo apenas um 'nada não', são algumas dessas
           opções que passam na minha cabeça…"
+        </motion.p>
+
+        {/* Instruction text */}
+        <motion.p
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="font-body text-primary-foreground/90 text-center text-sm sm:text-base leading-relaxed max-w-md mb-12 sm:mb-16 px-2"
+        >
+          Role e clique em cada polaroid para descobrir mais sobre os detalhes que eu admiro em você ✨
         </motion.p>
 
         {/* Polaroid grid - zig-zag */}
@@ -101,7 +113,7 @@ const PolaroidGallery = () => {
                 {"No fim das contas,\no motivo de eu te olhar tanto\né simples…\n\n"}
               </p>
               <p className="font-display text-primary text-3xl sm:text-4xl mt-4 glow-text">
-                eu gosto muito de você.
+                eu amo você e cada detalhe seu.
               </p>
               <span className="text-4xl mt-4 block heartbeat-icon">🤍</span>
             </motion.div>

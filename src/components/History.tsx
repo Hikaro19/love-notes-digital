@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStepTimer } from "@/hooks/useStepTimer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import BackButton from "@/components/BackButton";
 import videoCaseiNaLiberta from "@/assets/photos/videoCaseiNaLiberta.mp4";
 import videoNamoramos from "@/assets/photos/videoNamoramos.mp4";
 import fotoComLia from "@/assets/photos/fotoComLia.jpg";
@@ -11,6 +12,7 @@ import video1 from "@/assets/photos/video1.mp4";
 
 interface HistoryProps {
     onNext: () => void;
+    onBack: () => void;
 }
 
 type ModalStep =
@@ -22,7 +24,14 @@ type ModalStep =
     | "input-question"
     | "success";
 
-const History = ({ onNext }: HistoryProps) => {
+const History = ({ onNext, onBack }: HistoryProps) => {
+    const handleBackClick = () => {
+        if (currentStep === "initial") {
+            onBack();
+        } else {
+            setCurrentStep("initial");
+        }
+    };
     const [currentStep, setCurrentStep] = useState<ModalStep>("initial");
     const [inputValue, setInputValue] = useState("");
     const [inputError, setInputError] = useState(false);
@@ -76,6 +85,7 @@ const History = ({ onNext }: HistoryProps) => {
 
     return (
         <div className="relative min-h-screen overflow-y-auto bg-gradient-romantic">
+            <BackButton onClick={handleBackClick} ariaLabel="Voltar para tela anterior" />
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center justify-center px-4 py-8 min-h-screen">
                 <AnimatePresence mode="wait">
@@ -320,7 +330,7 @@ const History = ({ onNext }: HistoryProps) => {
                             <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-2xl max-w-md w-full backdrop-blur-sm">
                                 <p className="text-foreground font-body text-base sm:text-lg text-center mb-8 leading-relaxed">
                                     Agora, dúvido acertar uma das programações que eu mais gosto
-                                    de fazer com você desde que nos conhecemos. Dica: Você AMA, e geralmente é nos finais de semana.
+                                    de fazer com você desde que nos conhecemos. Dica: Você ama fazer isso (principalmente cansada), e geralmente é nos finais de semana.
                                 </p>
 
                                 <div className="mb-6">

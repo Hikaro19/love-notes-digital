@@ -1,23 +1,27 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ANIMATION_TIMINGS } from "@/constants/animations";
+import BackButton from "@/components/BackButton";
 import bgMessage from "@/assets/photos/bg-message.jpg";
 
 interface MessageScreenProps {
   onNext: () => void;
+  onBack: () => void;
 }
 
-const fullMessage = `Feliz aniversário, linda! 🤍
+const fullMessage = 
+`Feliz aniversário, minha linda! 🤍
 Espero que você aproveite seu dia!
 
 Desejo o melhor para sua vida,
 e que eu possa estar junto de ti,
 cuidando de você,
-torcendo e ajudando no que eu puder.
+torcendo por você, 
+e ajudando no que eu puder.
 
 Que papai do céu lhe abençoe!`;
 
-const MessageScreen = ({ onNext }: MessageScreenProps) => {
+const MessageScreen = ({ onNext, onBack }: MessageScreenProps) => {
   const [displayedText, setDisplayedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
   const [showCard, setShowCard] = useState(false);
@@ -87,6 +91,7 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
 
   return (
     <div className="relative min-h-screen overflow-y-auto">
+      <BackButton onClick={onBack} ariaLabel="Voltar para tela anterior" />
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -104,7 +109,7 @@ const MessageScreen = ({ onNext }: MessageScreenProps) => {
             !typingDone ? "breathing-card" : ""
           }`}
         >
-          <p className="text-foreground font-body text-base sm:text-lg leading-relaxed whitespace-pre-line">
+          <p className="text-foreground font-body text-base sm:text-lg leading-relaxed whitespace-pre-line text-center">
             {displayedText}
             {!typingDone && <span className="typing-cursor" />}
           </p>

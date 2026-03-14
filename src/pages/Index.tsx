@@ -11,6 +11,19 @@ type Screen = "start" | "history" | "message" | "gallery";
 const Index = () => {
   const [screen, setScreen] = useState<Screen>("start");
 
+  const handleBackClick = (currentScreen: Screen) => {
+    const navigationMap: Record<Screen, Screen | null> = {
+      start: null,
+      history: "start",
+      message: "history",
+      gallery: "message",
+    };
+    const previousScreen = navigationMap[currentScreen];
+    if (previousScreen) {
+      setScreen(previousScreen);
+    }
+  };
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -22,9 +35,9 @@ const Index = () => {
         className="min-h-screen"
       >
         {screen === "start" && <StartScreen onEnter={() => setScreen("history")} />}
-        {screen === "history" && <History onNext={() => setScreen("message")} />}
-        {screen === "message" && <MessageScreen onNext={() => setScreen("gallery")} />}
-        {screen === "gallery" && <PolaroidGallery />}
+        {screen === "history" && <History onNext={() => setScreen("message")} onBack={() => handleBackClick("history")} />}
+        {screen === "message" && <MessageScreen onNext={() => setScreen("gallery")} onBack={() => handleBackClick("message")} />}
+        {screen === "gallery" && <PolaroidGallery onBack={() => handleBackClick("gallery")} />}
       </motion.div>
     </AnimatePresence>
   );
